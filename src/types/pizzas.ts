@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from 'react-native';
+
 export type Pizza = {
   id: number;
   name: string;
@@ -6,5 +8,5 @@ export type Pizza = {
   priceSmall: number;
   priceMedium: number;
   priceLarge: number;
-  imageUrl: string;
+  imageUrl: ImageSourcePropType;
 };

@@ -9,7 +9,7 @@ export const pizzas: Pizza[] = [
     priceSmall: 8.99,
     priceMedium: 10.99,
     priceLarge: 14.99,
-    imageUrl: 'path/to/pizza-5.png',
+    imageUrl: require('../assets/pizza-5.png'),
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ export const pizzas: Pizza[] = [
     priceSmall: 9.99,
     priceMedium: 11.99,
     priceLarge: 15.99,
-    imageUrl: 'path/to/pizza-6.png',
+    imageUrl: require('../assets/pizza-6.png'),
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ export const pizzas: Pizza[] = [
     priceSmall: 10.99,
     priceMedium: 12.99,
     priceLarge: 16.99,
-    imageUrl: 'path/to/pizza-8.png',
+    imageUrl: require('../assets/pizza-8.png'),
   },
   {
     id: 4,
@@ -40,7 +40,7 @@ export const pizzas: Pizza[] = [
     priceSmall: 9.99,
     priceMedium: 11.99,
     priceLarge: 15.99,
-    imageUrl: 'path/to/pizza-9.png',
+    imageUrl: require('../assets/pizza-9.png'),
   },
   {
     id: 5,
@@ -50,6 +50,6 @@ export const pizzas: Pizza[] = [
     priceSmall: 11.99,
     priceMedium: 13.99,
     priceLarge: 17.99,
-    imageUrl: 'path/to/pizza-10.png',
+    imageUrl: require('../assets/pizza-10.png'),
   },
 ];

@@ -7,6 +7,7 @@ export interface GlobalStore {
   pizzaSize: PizzaSize;
   extraIngredientsAdded: ExtraIngredient[];
   totalPizzaPrice: number | null;
+  counterOrders: number;
   //action
   getFirstDataPizza: (id: number) => void;
   setPizzaPriceSelectedSize: (price: number, size: PizzaSize) => void;
@@ -14,6 +15,7 @@ export interface GlobalStore {
   addExtraIngredient: (ingredient: ExtraIngredient) => void;
   removeExtraIngredient: (ingredient: ExtraIngredient) => void;
   setInitialState: () => void;
+  addOrderToCounter: () => void;
 }
 
 export interface GlobalStoreState
@@ -25,4 +27,5 @@ export interface GlobalStoreState
     | 'removeExtraIngredient'
     | 'setInitialState'
     | 'calculatePriceByExtraIngredientsAndSize'
+    | 'addOrderToCounter'
   > {}

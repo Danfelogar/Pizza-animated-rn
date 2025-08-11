@@ -1,7 +1,9 @@
+import { ImageSourcePropType } from 'react-native';
+
 export type ExtraIngredient = {
   id: number;
   name: string;
   price: number;
-  ingredientImage: string;
-  unitImage: string;
+  ingredientImage: ImageSourcePropType;
+  unitImage: ImageSourcePropType;
 };

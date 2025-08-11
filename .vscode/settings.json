@@ -2,6 +2,8 @@
   "exportall.config.folderListener": [
     "/src",
     "/src/types",
-    "/src/utils"
+    "/src/utils",
+    "/src/components",
+    "/src/hooks"
   ]
 }

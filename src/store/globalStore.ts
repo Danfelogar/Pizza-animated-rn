@@ -33,7 +33,8 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
   },
 
   setPizzaPriceSelectedSize: (price: number, size: PizzaSize) => {
-    const { calculatePriceByExtraIngredientsAndSize } = get();
+    const { calculatePriceByExtraIngredientsAndSize, pizzaSize } = get();
+    if (size === pizzaSize) return;
     set({ pizzaPriceSelectedSize: price, pizzaSize: size });
     calculatePriceByExtraIngredientsAndSize();
   },

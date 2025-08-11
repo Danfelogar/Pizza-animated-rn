@@ -1,8 +1,21 @@
-import { FC } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { FC, useEffect, useRef } from 'react';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  ViewStyle,
+  StyleProp,
+} from 'react-native';
 
 import { Pizza, RootStackMainParams } from '../types';
-import { colors, getPriceEnUsd, heightFullScreen } from '../utils';
+import {
+  colors,
+  getPriceEnUsd,
+  heightFullScreen,
+  widthFullScreen,
+} from '../utils';
 import BtnLinearGradient from './BtnLinearGradient';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -12,9 +25,10 @@ type NavigationProp = StackScreenProps<RootStackMainParams, 'PizzaDetails'>;
 
 interface Props {
   pizza: Pizza;
+  delayTime: number;
 }
 
-export const PizzaCard: FC<Props> = ({ pizza }) => {
+export const PizzaCard: FC<Props> = ({ pizza, delayTime }) => {
   const {
     content,
     imageCard,
@@ -25,6 +39,7 @@ export const PizzaCard: FC<Props> = ({ pizza }) => {
     textBtn,
   } = styles;
   const { setInitialState } = useGlobalStore();
+  const translate = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation<NavigationProp['navigation']>();
 
   const goPizzaDetail = () => {
@@ -32,8 +47,35 @@ export const PizzaCard: FC<Props> = ({ pizza }) => {
     navigation.navigate('PizzaDetails', { pizzaId: pizza.id });
   };
 
+  const handleTranslate = () => {
+    Animated.sequence([
+      Animated.delay(delayTime),
+      Animated.timing(translate, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  const animatedStyle: StyleProp<ViewStyle> = {
+    transform: [
+      {
+        translateX: translate.interpolate({
+          inputRange: [0, 1],
+          outputRange: [-widthFullScreen * 0.89, 0],
+        }),
+      },
+    ],
+  };
+
+  useEffect(() => {
+    handleTranslate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <View style={content}>
+    <Animated.View style={[content, animatedStyle]}>
       <Image resizeMethod="none" source={pizza.imageUrl} style={imageCard} />
       <View style={textBox}>
         <Text style={titleText}>{pizza.name}</Text>
@@ -44,7 +86,7 @@ export const PizzaCard: FC<Props> = ({ pizza }) => {
       <BtnLinearGradient actionOnPress={goPizzaDetail}>
         <Text style={textBtn}>Add</Text>
       </BtnLinearGradient>
-    </View>
+    </Animated.View>
   );
 };
 

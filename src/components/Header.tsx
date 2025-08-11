@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { Feather } from '@react-native-vector-icons/feather';
 
-import { colors, heightFullScreen, widthFullScreen } from '../utils';
+import { colors, heightFullScreen } from '../utils';
 import { useGlobalStore } from '../store';
 import { useNavigation } from '@react-navigation/native';
 
@@ -24,10 +24,10 @@ export const Header: FC<Props> = ({ title, isGoBack }) => {
 
   const { counterOrders, setInitialState } = useGlobalStore();
   const navigation = useNavigation();
-  const goBack = () => {
+  const goBack = useCallback(() => {
     navigation.goBack();
     setInitialState();
-  };
+  }, [navigation, setInitialState]);
 
   return (
     <View style={container}>
@@ -48,14 +48,12 @@ export const Header: FC<Props> = ({ title, isGoBack }) => {
           size={heightFullScreen * 0.03}
           color={colors.secondary}
         />
-        <View
-          style={{
-            ...circleCounter,
-            ...(counterOrders === 0 && { display: 'none' }),
-          }}
-        >
-          <Text style={textCounter}>{counterOrders}</Text>
-        </View>
+        {/* use display none do that ios crashing when do an action */}
+        {counterOrders > 0 && (
+          <View style={circleCounter}>
+            <Text style={textCounter}>{counterOrders}</Text>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -63,16 +61,16 @@ export const Header: FC<Props> = ({ title, isGoBack }) => {
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    width: widthFullScreen,
     backgroundColor: colors.secondBackground,
     paddingHorizontal: heightFullScreen * 0.025,
     paddingTop: heightFullScreen * 0.03,
     paddingBottom: heightFullScreen * 0.02,
   },
   titleBox: {
-    flex: 1,
+    width: '90%',
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -84,11 +82,13 @@ const styles = StyleSheet.create({
     color: colors.secondary,
   },
   cartBox: {
+    width: '10%',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
   },
   circleCounter: {
+    display: 'flex',
     position: 'absolute',
     right: -15,
     top: -20,

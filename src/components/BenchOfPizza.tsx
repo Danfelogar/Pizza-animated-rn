@@ -1,8 +1,14 @@
 import { FC } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Animated,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Pizza } from '../types';
-import { colors, getPriceEnUsd, PizzaSize, widthFullScreen } from '../utils';
-import { useBenchOfPizza } from '../hooks';
+import { colors, getPriceEnUsd, widthFullScreen } from '../utils';
+import { useBenchOfPizza, useBenchOfPizzaAnimation } from '../hooks';
 
 interface Props {
   pizza: Pizza;
@@ -24,55 +30,48 @@ export const BenchOfPizza: FC<Props> = ({ pizza }) => {
     //state
     pizzaSize,
     totalPizzaPrice,
+    sizeOptionList,
     //methods
     //actions
-    setPizzaPriceSelectedSize,
   } = useBenchOfPizza({ pizza });
+  const {
+    //state
+    pizzaAnimated,
+    dishAnimated,
+    priceTextAnimated,
+    //methods
+    //actions
+  } = useBenchOfPizzaAnimation();
 
   return (
     <View style={container}>
       <View style={pizzaContainer}>
-        <Image source={require('../assets/dish.png')} style={imgDish} />
-        <Image source={pizza.imageUrl} style={imgPizza} />
+        <Animated.Image
+          source={require('../assets/dish.png')}
+          style={[imgDish, dishAnimated]}
+        />
+        <Animated.Image
+          source={pizza.imageUrl}
+          style={[imgPizza, pizzaAnimated]}
+        />
       </View>
-      <Text style={priceText}>{getPriceEnUsd(totalPizzaPrice ?? 0)}</Text>
+      <Animated.Text style={[priceText, priceTextAnimated]}>
+        {getPriceEnUsd(totalPizzaPrice ?? 0)}
+      </Animated.Text>
       <View style={sizeContainer}>
-        <TouchableOpacity
-          onPress={() =>
-            setPizzaPriceSelectedSize(pizza.priceSmall, PizzaSize.Small)
-          }
-          style={{
-            ...btnCircle,
-            ...(pizzaSize === PizzaSize.Small && shadowCircleBtn),
-          }}
-          activeOpacity={0.8}
-        >
-          <Text style={textBtnCircle}>S</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            setPizzaPriceSelectedSize(pizza.priceMedium, PizzaSize.Medium)
-          }
-          style={{
-            ...btnCircle,
-            ...(pizzaSize === PizzaSize.Medium && shadowCircleBtn),
-          }}
-          activeOpacity={0.8}
-        >
-          <Text style={textBtnCircle}>M</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            setPizzaPriceSelectedSize(pizza.priceLarge, PizzaSize.Large)
-          }
-          style={{
-            ...btnCircle,
-            ...(pizzaSize === PizzaSize.Large && shadowCircleBtn),
-          }}
-          activeOpacity={0.8}
-        >
-          <Text style={textBtnCircle}>L</Text>
-        </TouchableOpacity>
+        {sizeOptionList.map(sizeOption => (
+          <TouchableOpacity
+            key={sizeOption.id}
+            onPress={sizeOption.action}
+            style={{
+              ...btnCircle,
+              ...(pizzaSize === sizeOption.type && shadowCircleBtn),
+            }}
+            activeOpacity={0.8}
+          >
+            <Text style={textBtnCircle}>{sizeOption.text}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );

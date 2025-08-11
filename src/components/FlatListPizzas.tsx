@@ -12,7 +12,14 @@ export const FlatListPizzas = () => {
       style={styles.flatListWrapper}
       data={pizzas} // Data source for the list
       renderItem={({ item }) => {
-        return <PizzaCard key={item.id.toString()} pizza={item} />;
+        const delayTime = 100 * item.id;
+        return (
+          <PizzaCard
+            key={item.id.toString()}
+            pizza={item}
+            delayTime={delayTime}
+          />
+        );
       }}
       key={flatListId} // Unique key
       keyExtractor={item => item.id.toString()} // Key extractor for each item

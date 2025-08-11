@@ -1,0 +1,7 @@
+{
+  "exportall.config.folderListener": [
+    "/src",
+    "/src/types",
+    "/src/utils"
+  ]
+}

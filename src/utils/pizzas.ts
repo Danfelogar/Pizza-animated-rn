@@ -1,0 +1,55 @@
+import { Pizza } from '../types';
+
+export const pizzas: Pizza[] = [
+  {
+    id: 1,
+    name: 'Vegetarian Pizza',
+    description: 'A fresh mix of vegetables, mozzarella, and tomato sauce.',
+    price: 12.99,
+    priceSmall: 8.99,
+    priceMedium: 10.99,
+    priceLarge: 14.99,
+    imageUrl: 'path/to/pizza-5.png',
+  },
+  {
+    id: 2,
+    name: 'Four Cheese Pizza',
+    description:
+      'A cheesy delight with mozzarella, cheddar, parmesan, and gorgonzola.',
+    price: 13.99,
+    priceSmall: 9.99,
+    priceMedium: 11.99,
+    priceLarge: 15.99,
+    imageUrl: 'path/to/pizza-6.png',
+  },
+  {
+    id: 3,
+    name: 'Meat Lovers Pizza',
+    description: 'Loaded with pepperoni, sausage, ham, and bacon.',
+    price: 14.99,
+    priceSmall: 10.99,
+    priceMedium: 12.99,
+    priceLarge: 16.99,
+    imageUrl: 'path/to/pizza-8.png',
+  },
+  {
+    id: 4,
+    name: 'Buffalo Chicken Pizza',
+    description: 'Spicy buffalo chicken, mozzarella, and ranch drizzle.',
+    price: 13.99,
+    priceSmall: 9.99,
+    priceMedium: 11.99,
+    priceLarge: 15.99,
+    imageUrl: 'path/to/pizza-9.png',
+  },
+  {
+    id: 5,
+    name: 'Seafood Pizza',
+    description: 'Shrimp, squid, and fresh herbs on a creamy base.',
+    price: 15.99,
+    priceSmall: 11.99,
+    priceMedium: 13.99,
+    priceLarge: 17.99,
+    imageUrl: 'path/to/pizza-10.png',
+  },
+];

@@ -9,6 +9,7 @@ import {
 import { Pizza } from '../types';
 import { colors, getPriceEnUsd, widthFullScreen } from '../utils';
 import { useBenchOfPizza, useBenchOfPizzaAnimation } from '../hooks';
+import { IngredientPerUnit } from './IngredientPerUnit';
 
 interface Props {
   pizza: Pizza;
@@ -39,6 +40,13 @@ export const BenchOfPizza: FC<Props> = ({ pizza }) => {
     pizzaAnimated,
     dishAnimated,
     priceTextAnimated,
+    potatoes,
+    chilies,
+    mushrooms,
+    olives,
+    onions,
+    peas,
+    pickles,
     //methods
     //actions
   } = useBenchOfPizzaAnimation();
@@ -54,6 +62,20 @@ export const BenchOfPizza: FC<Props> = ({ pizza }) => {
           source={pizza.imageUrl}
           style={[imgPizza, pizzaAnimated]}
         />
+        {/* potatoes */}
+        {IngredientPerUnit(potatoes, require('../assets/potato_unit.png'))}
+        {/* chilies */}
+        {IngredientPerUnit(chilies, require('../assets/chili_unit.png'))}
+        {/* mushrooms */}
+        {IngredientPerUnit(mushrooms, require('../assets/mushroom_unit.png'))}
+        {/* olives */}
+        {IngredientPerUnit(olives, require('../assets/olive_unit.png'))}
+        {/* onions */}
+        {IngredientPerUnit(onions, require('../assets/onion.png'))}
+        {/* peas */}
+        {IngredientPerUnit(peas, require('../assets/pea_unit.png'))}
+        {/* pickles */}
+        {IngredientPerUnit(pickles, require('../assets/pickle_unit.png'))}
       </View>
       <Animated.Text style={[priceText, priceTextAnimated]}>
         {getPriceEnUsd(totalPizzaPrice ?? 0)}

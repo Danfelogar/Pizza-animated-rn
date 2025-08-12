@@ -4,5 +4,6 @@ export * from './DragDropIngredients';
 export * from './FlatListPizzas';
 export * from './Header';
 export * from './IngredientCard';
+export * from './IngredientPerUnit';
 export * from './PizzaCard';
 export * from './StandardWrapper';

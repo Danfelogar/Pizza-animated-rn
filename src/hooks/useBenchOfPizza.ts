@@ -11,6 +11,7 @@ export const useBenchOfPizza = ({ pizza }: Props) => {
   const {
     pizzaSize,
     totalPizzaPrice,
+    extraIngredientsAdded,
     getFirstDataPizza,
     setPizzaPriceSelectedSize,
   } = useGlobalStore();
@@ -38,6 +39,7 @@ export const useBenchOfPizza = ({ pizza }: Props) => {
       type: PizzaSize.Large,
     },
   ];
+
   useEffect(() => {
     getFirstDataPizza(pizza.priceSmall);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,6 +50,7 @@ export const useBenchOfPizza = ({ pizza }: Props) => {
     pizzaSize,
     totalPizzaPrice,
     sizeOptionList,
+    extraIngredientsAdded,
     //methods
     //actions
     setPizzaPriceSelectedSize,

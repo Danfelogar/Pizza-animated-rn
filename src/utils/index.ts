@@ -5,3 +5,4 @@ export * from './getPriceEnUsd';
 export * from './phoneDimensions';
 export * from './pizzaSize';
 export * from './pizzas';
+export * from './sizeMultiplier';

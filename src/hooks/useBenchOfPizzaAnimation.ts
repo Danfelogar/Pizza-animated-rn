@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Animated, ImageStyle, StyleProp, TextStyle } from 'react-native';
 import { useGlobalStore } from '../store';
 import {
+  createAnimation,
+  createIngredient,
   heightFullScreen,
-  PizzaSize,
-  sizeMultiplier,
   widthFullScreen,
 } from '../utils';
 import { ExtraIngredientPerUnit } from '../types';
@@ -28,519 +28,62 @@ export const useBenchOfPizzaAnimation = () => {
     pizzaPriceSelectedSize,
     extraIngredientsAdded,
   } = useGlobalStore();
+
+  const ingredientsRef = useRef<Record<string, ExtraIngredientPerUnit[]>>({});
+
   const prevIngredients = useRef(extraIngredientsAdded);
 
-  const potatoes: ExtraIngredientPerUnit[] = [
-    {
-      id: 1,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.22 *
-          sizeMultiplier(widthFullScreen * 0.22, pizzaSize),
-        left:
-          widthFullScreen *
-          0.18 *
-          sizeMultiplier(widthFullScreen * 0.18, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 2,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.45 *
-          sizeMultiplier(widthFullScreen * 0.45, pizzaSize),
-        left:
-          widthFullScreen *
-          0.48 *
-          sizeMultiplier(widthFullScreen * 0.48, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 3,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.32 *
-          sizeMultiplier(widthFullScreen * 0.32, pizzaSize),
-        left:
-          widthFullScreen *
-          0.25 *
-          sizeMultiplier(widthFullScreen * 0.25, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 4,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.19 *
-          sizeMultiplier(widthFullScreen * 0.19, pizzaSize),
-        left:
-          widthFullScreen *
-          0.45 *
-          sizeMultiplier(widthFullScreen * 0.45, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-  ];
+  const ingredients = useMemo(() => {
+    const ingredientTypes = [
+      'POTATOES',
+      'CHILIES',
+      'MUSHROOMS',
+      'OLIVES',
+      'ONIONS',
+      'PEAS',
+      'PICKLES',
+    ];
+    const newIngredients: Record<string, ExtraIngredientPerUnit[]> = {};
 
-  const chilies: ExtraIngredientPerUnit[] = [
-    {
-      id: 1,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.5 *
-          sizeMultiplier(widthFullScreen * 0.5, pizzaSize),
-        left:
-          widthFullScreen *
-          0.21 *
-          sizeMultiplier(widthFullScreen * 0.21, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 2,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.19 *
-          sizeMultiplier(widthFullScreen * 0.19, pizzaSize),
-        left:
-          widthFullScreen *
-          0.47 *
-          sizeMultiplier(widthFullScreen * 0.47, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 3,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.35 *
-          sizeMultiplier(widthFullScreen * 0.35, pizzaSize),
-        left:
-          widthFullScreen *
-          0.35 *
-          sizeMultiplier(widthFullScreen * 0.35, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 4,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.28 *
-          sizeMultiplier(widthFullScreen * 0.28, pizzaSize),
-        left:
-          widthFullScreen *
-          0.52 *
-          sizeMultiplier(widthFullScreen * 0.52, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-  ];
+    ingredientTypes.forEach(type => {
+      newIngredients[type] = createIngredient(
+        type,
+        pizzaSize,
+        ingredientsRef.current?.[type],
+      );
+    });
 
-  const mushrooms: ExtraIngredientPerUnit[] = [
-    {
-      id: 1,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.41 *
-          sizeMultiplier(widthFullScreen * 0.41, pizzaSize),
-        left:
-          widthFullScreen *
-          0.22 *
-          sizeMultiplier(widthFullScreen * 0.22, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 2,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.27 *
-          sizeMultiplier(widthFullScreen * 0.27, pizzaSize),
-        left:
-          widthFullScreen *
-          0.33 *
-          sizeMultiplier(widthFullScreen * 0.33, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 3,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.5 *
-          sizeMultiplier(widthFullScreen * 0.5, pizzaSize),
-        left:
-          widthFullScreen *
-          0.49 *
-          sizeMultiplier(widthFullScreen * 0.49, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 4,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.19 *
-          sizeMultiplier(widthFullScreen * 0.19, pizzaSize),
-        left:
-          widthFullScreen *
-          0.21 *
-          sizeMultiplier(widthFullScreen * 0.21, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-  ];
-
-  const olives: ExtraIngredientPerUnit[] = [
-    {
-      id: 1,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.25 *
-          sizeMultiplier(widthFullScreen * 0.25, pizzaSize),
-        left:
-          widthFullScreen *
-          0.5 *
-          sizeMultiplier(widthFullScreen * 0.5, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 2,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.19 *
-          sizeMultiplier(widthFullScreen * 0.19, pizzaSize),
-        left:
-          widthFullScreen *
-          0.39 *
-          sizeMultiplier(widthFullScreen * 0.39, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 3,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.32 *
-          sizeMultiplier(widthFullScreen * 0.32, pizzaSize),
-        left:
-          widthFullScreen *
-          0.15 *
-          sizeMultiplier(widthFullScreen * 0.15, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 4,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.45 *
-          sizeMultiplier(widthFullScreen * 0.45, pizzaSize),
-        left:
-          widthFullScreen *
-          0.25 *
-          sizeMultiplier(widthFullScreen * 0.25, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-  ];
-
-  const onions: ExtraIngredientPerUnit[] = [
-    {
-      id: 1,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.19 *
-          sizeMultiplier(widthFullScreen * 0.19, pizzaSize),
-        left:
-          widthFullScreen *
-          0.35 *
-          sizeMultiplier(widthFullScreen * 0.35, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 2,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.5 *
-          sizeMultiplier(widthFullScreen * 0.5, pizzaSize),
-        left:
-          widthFullScreen *
-          0.52 *
-          sizeMultiplier(widthFullScreen * 0.52, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 3,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.15 *
-          sizeMultiplier(widthFullScreen * 0.15, pizzaSize),
-        left:
-          widthFullScreen *
-          0.45 *
-          sizeMultiplier(widthFullScreen * 0.45, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 4,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.32 *
-          sizeMultiplier(widthFullScreen * 0.32, pizzaSize),
-        left:
-          widthFullScreen *
-          0.25 *
-          sizeMultiplier(widthFullScreen * 0.25, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-  ];
-
-  const peas: ExtraIngredientPerUnit[] = [
-    {
-      id: 1,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.45 *
-          sizeMultiplier(widthFullScreen * 0.45, pizzaSize),
-        left:
-          widthFullScreen *
-          0.15 *
-          sizeMultiplier(widthFullScreen * 0.15, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 2,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.19 *
-          sizeMultiplier(widthFullScreen * 0.19, pizzaSize),
-        left:
-          widthFullScreen *
-          0.43 *
-          sizeMultiplier(widthFullScreen * 0.43, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 3,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.32 *
-          sizeMultiplier(widthFullScreen * 0.32, pizzaSize),
-        left:
-          widthFullScreen *
-          0.25 *
-          sizeMultiplier(widthFullScreen * 0.25, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 4,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.5 *
-          sizeMultiplier(widthFullScreen * 0.5, pizzaSize),
-        left:
-          widthFullScreen *
-          0.35 *
-          sizeMultiplier(widthFullScreen * 0.35, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-  ];
-
-  const pickles: ExtraIngredientPerUnit[] = [
-    {
-      id: 1,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.19 *
-          sizeMultiplier(widthFullScreen * 0.19, pizzaSize),
-        left:
-          widthFullScreen *
-          0.47 *
-          sizeMultiplier(widthFullScreen * 0.47, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 2,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.5 *
-          sizeMultiplier(widthFullScreen * 0.5, pizzaSize),
-        left:
-          widthFullScreen *
-          0.25 *
-          sizeMultiplier(widthFullScreen * 0.25, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 3,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.32 *
-          sizeMultiplier(widthFullScreen * 0.32, pizzaSize),
-        left:
-          widthFullScreen *
-          0.25 *
-          sizeMultiplier(widthFullScreen * 0.25, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-    {
-      id: 4,
-      staticStyle: {
-        top:
-          widthFullScreen *
-          0.45 *
-          sizeMultiplier(widthFullScreen * 0.45, pizzaSize),
-        left:
-          widthFullScreen *
-          0.48 *
-          sizeMultiplier(widthFullScreen * 0.48, pizzaSize),
-      },
-      animationOpacityVal: useRef(new Animated.Value(0)).current,
-      animationTranslateVal: useRef(new Animated.Value(0)).current,
-    },
-  ];
+    ingredientsRef.current = newIngredients;
+    return newIngredients;
+  }, [pizzaSize]);
 
   const handleTranslateAndRotatePizza = () => {
-    Animated.parallel([
-      Animated.timing(translatePizza, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: false,
-      }),
-      Animated.timing(rotatePizza, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: false,
-      }),
-    ]).start(({ finished }) => {
-      if (finished) {
-        rotatePizza.setValue(0);
-      }
-    });
+    createAnimation
+      .translateAndRotate(translatePizza, rotatePizza)
+      .start(({ finished }) => {
+        if (finished) {
+          rotatePizza.setValue(0);
+        }
+      });
   };
 
   const handleTranslateAndRotateDish = () => {
-    Animated.parallel([
-      Animated.timing(translateDish, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: false,
-      }),
-      Animated.timing(rotateDish, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: false,
-      }),
-    ]).start(({ finished }) => {
-      if (finished) {
-        rotateDish.setValue(0);
-      }
-    });
+    createAnimation
+      .translateAndRotate(translateDish, rotateDish)
+      .start(({ finished }) => {
+        if (finished) {
+          rotateDish.setValue(0);
+        }
+      });
   };
 
   const handleSize = () => {
+    //prevent rotations from being canceled
+    if (pizzaPriceSelectedSize == null) return;
+
     Animated.parallel([
-      Animated.spring(sizeDish, {
-        toValue:
-          pizzaSize === PizzaSize.Small
-            ? 1
-            : pizzaSize === PizzaSize.Medium
-            ? 1.2
-            : 1.5,
-        friction: 6,
-        useNativeDriver: false,
-      }),
-      Animated.timing(rotatePizza, {
-        toValue: 1,
-        duration: 250,
-        useNativeDriver: false,
-      }),
-      Animated.spring(sizePizza, {
-        toValue:
-          pizzaSize === PizzaSize.Small
-            ? 1
-            : pizzaSize === PizzaSize.Medium
-            ? 1.2
-            : 1.5,
-        friction: 6,
-        useNativeDriver: false,
-      }),
-      Animated.timing(rotateDish, {
-        toValue: 1,
-        duration: 250,
-        useNativeDriver: false,
-      }),
+      createAnimation.sizeChange(sizeDish, rotateDish, pizzaSize),
+      createAnimation.sizeChange(sizePizza, rotatePizza, pizzaSize),
     ]).start(({ finished }) => {
       if (finished) {
         rotateDish.setValue(0);
@@ -550,98 +93,37 @@ export const useBenchOfPizzaAnimation = () => {
   };
 
   const handlePriceText = () => {
-    Animated.sequence([
-      Animated.parallel([
-        Animated.timing(translatePriceText, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: false,
-        }),
-        Animated.timing(opacityPriceText, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: false,
-        }),
-      ]),
-      Animated.parallel([
-        Animated.timing(translatePriceText, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: false,
-        }),
-        Animated.timing(opacityPriceText, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: false,
-        }),
-      ]),
-    ]).start();
+    createAnimation.priceText(translatePriceText, opacityPriceText).start();
   };
 
   const getIngredientsArray = (
     ingredientType: string,
   ): ExtraIngredientPerUnit[] => {
-    switch (ingredientType) {
-      case 'Potato':
-        return potatoes;
-      case 'Chili':
-        return chilies;
-      case 'Mushroom':
-        return mushrooms;
-      case 'Olive':
-        return olives;
-      case 'Onion':
-        return onions;
-      case 'Pea':
-        return peas;
-      case 'Pickle':
-        return pickles;
-      default:
-        return [];
-    }
+    const ingredientsMap: Record<string, ExtraIngredientPerUnit[]> = {
+      Potato: ingredients.POTATOES,
+      Chili: ingredients.CHILIES,
+      Mushroom: ingredients.MUSHROOMS,
+      Olive: ingredients.OLIVES,
+      Onion: ingredients.ONIONS,
+      Pea: ingredients.PEAS,
+      Pickle: ingredients.PICKLES,
+    };
+
+    return ingredientsMap[ingredientType] || [];
   };
 
-  const animateIngredientIn = (ingredientType: string) => {
+  const animateIngredients = (ingredientType: string, isAdding: boolean) => {
     const ingredientsArray = getIngredientsArray(ingredientType);
 
     ingredientsArray.forEach((ingredient, index) => {
-      Animated.sequence([
-        Animated.delay(index * 100),
-        Animated.parallel([
-          Animated.timing(ingredient.animationOpacityVal, {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.spring(ingredient.animationTranslateVal, {
-            toValue: 1,
-            friction: 5,
-            useNativeDriver: true,
-          }),
-        ]),
-      ]).start();
-    });
-  };
-
-  const animateIngredientOut = (ingredientType: string) => {
-    const ingredientsArray = getIngredientsArray(ingredientType);
-
-    ingredientsArray.forEach((ingredient, index) => {
-      Animated.sequence([
-        Animated.delay(index * 100),
-        Animated.parallel([
-          Animated.timing(ingredient.animationOpacityVal, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(ingredient.animationTranslateVal, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-          }),
-        ]),
-      ]).start();
+      createAnimation
+        .ingredient(
+          ingredient.animationOpacityVal,
+          ingredient.animationTranslateVal,
+          index,
+          isAdding,
+        )
+        .start();
     });
   };
 
@@ -660,10 +142,7 @@ export const useBenchOfPizzaAnimation = () => {
 
   //update size when pizza size changes
   useEffect(() => {
-    //prevent rotations from being canceled
-    if (pizzaPriceSelectedSize != null) {
-      handleSize();
-    }
+    handleSize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pizzaSize]);
 
@@ -677,14 +156,10 @@ export const useBenchOfPizzaAnimation = () => {
     );
 
     // Animating ingredients added
-    added.forEach(ingredient => {
-      animateIngredientIn(ingredient.name);
-    });
+    added.forEach(ingredient => animateIngredients(ingredient.name, true));
 
     // Animating ingredients removed
-    removed.forEach(ingredient => {
-      animateIngredientOut(ingredient.name);
-    });
+    removed.forEach(ingredient => animateIngredients(ingredient.name, false));
 
     prevIngredients.current = [...extraIngredientsAdded];
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -737,22 +212,24 @@ export const useBenchOfPizzaAnimation = () => {
     ],
     opacity: opacityPriceText,
   };
-
+  console.log(
+    ingredients.POTATOES[0].staticStyle,
+    ingredients.POTATOES[0].animationOpacityVal,
+  );
   return {
     //state
     pizzaAnimated,
     dishAnimated,
     priceTextAnimated,
-    potatoes,
-    chilies,
-    mushrooms,
-    olives,
-    onions,
-    peas,
-    pickles,
+    potatoes: ingredients.POTATOES,
+    chilies: ingredients.CHILIES,
+    mushrooms: ingredients.MUSHROOMS,
+    olives: ingredients.OLIVES,
+    onions: ingredients.ONIONS,
+    peas: ingredients.PEAS,
+    pickles: ingredients.PICKLES,
     //methods
     //actions
-    animateIngredientIn,
-    animateIngredientOut,
+    animateIngredients,
   };
 };

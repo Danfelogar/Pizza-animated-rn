@@ -19,6 +19,8 @@ export const BenchOfPizza: FC<Props> = ({ pizza }) => {
   const {
     container,
     pizzaContainer,
+    imgBoxTop,
+    imgBoxBottom,
     imgDish,
     imgPizza,
     priceText,
@@ -47,13 +49,23 @@ export const BenchOfPizza: FC<Props> = ({ pizza }) => {
     onions,
     peas,
     pickles,
+    boxTopAnimated,
+    boxBottomAnimated,
     //methods
     //actions
-  } = useBenchOfPizzaAnimation();
+  } = useBenchOfPizzaAnimation({ pizza });
 
   return (
     <View style={container}>
       <View style={pizzaContainer}>
+        <Animated.Image
+          source={require('../assets/box_front.png')}
+          style={[imgBoxTop, boxTopAnimated]}
+        />
+        <Animated.Image
+          source={require('../assets/box_inside.png')}
+          style={[imgBoxBottom, boxBottomAnimated]}
+        />
         <Animated.Image
           source={require('../assets/dish.png')}
           style={[imgDish, dishAnimated]}
@@ -113,6 +125,23 @@ const styles = StyleSheet.create({
     height: widthFullScreen * 0.8,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  imgBoxTop: {
+    width: widthFullScreen * 0.45,
+    height: widthFullScreen * 0.45,
+    position: 'absolute',
+    objectFit: 'fill',
+    // top: 77,
+    // top: 0,
+    zIndex: 1,
+  },
+  imgBoxBottom: {
+    width: widthFullScreen * 0.45,
+    height: widthFullScreen * 0.45,
+    position: 'absolute',
+    objectFit: 'fill',
+    // bottom: 77,
+    // bottom: 0,
   },
   imgDish: {
     objectFit: 'contain',

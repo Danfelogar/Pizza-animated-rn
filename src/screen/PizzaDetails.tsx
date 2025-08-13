@@ -11,6 +11,7 @@ import {
 } from '../components';
 import { colors, getPizzaById, heightFullScreen } from '../utils';
 import { RootStackMainParams } from '../types';
+import { useGlobalStore } from '../store';
 
 interface Props extends StackScreenProps<RootStackMainParams, 'PizzaDetails'> {}
 
@@ -21,7 +22,7 @@ export const PizzaDetails: FC<Props> = ({ route }) => {
     extraPropertiesLinearGradient,
     extraPropertiesBtn,
   } = styles;
-
+  const { changeTransitionOrder, transitionOrder } = useGlobalStore();
   const { pizzaId } = route.params;
   const pizzaDetails = getPizzaById(pizzaId);
   return (
@@ -34,7 +35,10 @@ export const PizzaDetails: FC<Props> = ({ route }) => {
           <BtnLinearGradient
             extraPropertiesLinearGradient={extraPropertiesLinearGradient}
             extraPropertiesBtn={extraPropertiesBtn}
-            actionOnPress={() => {}}
+            actionOnPress={() => {
+              if (transitionOrder) return changeTransitionOrder(null);
+              changeTransitionOrder(true);
+            }}
           >
             <FontAwesome6
               iconStyle="solid"

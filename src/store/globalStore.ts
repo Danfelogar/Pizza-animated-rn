@@ -8,6 +8,7 @@ const INITIAL_STATE: GlobalStoreState = {
   totalPizzaPrice: null,
   pizzaSize: PizzaSize.Small,
   counterOrders: 0,
+  transitionOrder: null,
 };
 
 export const useGlobalStore = create<GlobalStore>((set, get) => ({
@@ -58,7 +59,14 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
   },
 
   addOrderToCounter: () =>
-    set(state => ({ counterOrders: state.counterOrders + 1 })),
+    set(state => ({
+      ...INITIAL_STATE,
+      counterOrders: state.counterOrders + 1,
+    })),
+
+  changeTransitionOrder(value) {
+    set({ transitionOrder: value });
+  },
 
   setInitialState: () => set(INITIAL_STATE),
 }));
